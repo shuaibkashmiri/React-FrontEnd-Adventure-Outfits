@@ -9,6 +9,7 @@ import Login from "./components/publicComponents/Login.jsx";
 import Signup from "./components/publicComponents/Signup.jsx";
 import Women from "./components/publicComponents/Women.jsx";
 import Cart from "./components/userComponents/Cart.jsx";
+import Men from "./components/publicComponents/Men.jsx"
 
 
 
@@ -16,7 +17,6 @@ import Cart from "./components/userComponents/Cart.jsx";
 const Dashboard =lazy(()=>delay(import("./components/userComponents/Dashboard.jsx")))
 const Nopage=lazy(()=>import("./components/adminComponents/Nopage.jsx"))
 const AddProducts =lazy(()=>import("./components/adminComponents/AddProducts.jsx"))
-const Men =lazy(()=>import("./components/publicComponents/Men.jsx"))
 
 async function delay(promise){
   await new Promise((resolve)=>{

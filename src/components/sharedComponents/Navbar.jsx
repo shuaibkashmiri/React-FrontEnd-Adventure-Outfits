@@ -29,7 +29,7 @@ const Navbar = (props) => {
     Cookies.remove("token");
     setUser("");
     navigate("/");
-    setLoading(!loading);
+    setLoading(!false);
   };
 
   function toggleDropDown() {
@@ -54,8 +54,11 @@ const Navbar = (props) => {
     }
   };
   useEffect(() => {
-    getUserData();
-  }, [props.change, loading]);
+    if(!user){
+      getUserData();
+    }
+  }, [props.change,loading]);
+
 
   return (
     <>

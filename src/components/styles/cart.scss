@@ -1,4 +1,42 @@
-.main{
-    min-height: 90vh;
-   padding-top: 10%;
+.btn{
+        margin-top: 20px;
+        padding: 7px 10px;
+        background-color: #31473A;
+        border-radius: 5px;
+        border: none;
+        overflow: hidden;
+        color: aliceblue;
+      
 }
+   
+
+.cart-heading{
+    margin-bottom: 2%;
+    margin-top: 0%;
+}
+
+.del{
+    width: 50px;
+    cursor: pointer;
+}
+
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    width: 40%;
+    margin-bottom: 2%;
+  }
+  
+  .cart-item-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 20px;
+  }
+  
+  .cart-item-details {
+    flex-grow: 1;
+  }
