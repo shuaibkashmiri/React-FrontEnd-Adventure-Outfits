@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Navbar.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import logo from "../../images/logo.png";
 import { IoMdMenu } from "react-icons/io";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -54,113 +54,97 @@ const Navbar = (props) => {
     }
   };
   useEffect(() => {
-    if(!user){
+    if (!user) {
       getUserData();
     }
-  }, [props.change,loading]);
-
+  }, [props.change, setCart]);
 
   return (
     <>
-      <div className="navbar">
-        <IoMdMenu className="menu" onClick={toggleMenu} />
+      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <div className="container-fluid">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon" />
+          </button>
+          <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <Link to={"/"} className="navbar-brand">
+              <img src={logo} />
+            </Link>
+            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <NavLink to={"/"} className="nav-link ">
+                  Home
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to={"/Men"} className="nav-link">
+                  Men
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to={"/women"} className="nav-link">
+                  Women
+                </NavLink>
+              </li>
 
-        <div className={menuData ? "drop-down" : "display-none"}>
-          <div className="close-btn">
-            <IoClose onClick={toggleMenu} />
+              {!user && (
+                <li className="nav-item">
+                  <NavLink to={"/login"} className="nav-link">
+                    Login
+                  </NavLink>
+                </li>
+              )}
+              {user && (
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    {user}
+                  </a>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a className="dropdown-item">My Orders</a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item">Settings</a>
+                    </li>
+                    <li>
+                      <hr className="dropdown-divider" />
+                    </li>
+                    <li>
+                      <NavLink className="dropdown-item" onClick={handleLogout}>
+                        Log-Out
+                      </NavLink>
+                    </li>
+                  </ul>
+                </li>
+              )}
+
+              {user && (
+                <li className="nav-item">
+                  <NavLink to={"/cart"} className="nav-link">
+                    <NavLink to={"usercart"} className="cart">
+                      <FaCartArrowDown /> {cart}
+                    </NavLink>
+                  </NavLink>
+                </li>
+              )}
+            </ul>
           </div>
-          <ul>
-            <li>
-              <Link to="/"> Home</Link>
-            </li>
-            <li>
-              <Link to="/men"> Men</Link>
-            </li>
-            <li>
-              <Link to="/women"> Women</Link>
-            </li>
-          </ul>
         </div>
-
-        {/* logo */}
-        <Link to="/" className="homelink">
-          <img src={logo} alt="LOGO" className="logo" />
-        </Link>
-
-        {/* ul */}
-        <ul>
-          <li>
-            <Link to="/">
-              {" "}
-              <AiOutlineHome /> Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/men">
-              <LiaMaleSolid /> Men
-            </Link>
-          </li>
-          <li>
-            <Link to="/women">
-              <LiaFemaleSolid /> Women
-            </Link>
-          </li>
-        </ul>
-
-        <div>
-          {user ? (
-            <div className="userlogo">
-              <div className="user">
-                <p>{user}</p>
-
-                <IoIosArrowDropdown onClick={toggleDropDown} />
-              </div>
-              <div className="cart-length">
-                {" "}
-                <Link to="/usercart">
-                  <FaCartArrowDown className="cart" />
-                </Link>
-                <p>{cart}</p>
-              </div>
-            </div>
-          ) : <Link to="/login" className="login-pc">Login</Link>
-            
-          }
-          <div className={dropDown ? "dropdownmenu" : "display-none"}>
-        <ul>
-          <li>Setting</li>
-          <li>Edit Profile</li>
-          <hr />
-          <li onClick={handleLogout}>Log-Out</li>
-        </ul>
-      </div>
-        </div>
-
-        {/* buttons */}
-
-        <div>
-          {user ? (
-            <BsThreeDotsVertical className="dots" onClick={toggleSetting} />
-          ) : (
-            <Link to={"/login"} className="login-mobile">
-              Login
-            </Link>
-          )}
-        </div>
-      </div>
-      <div className={showSetting ? "settings" : "display-none"}>
-        <ul>
-          <li>{user}</li>
-          <li>Edit Profile</li>
-          <hr />
-          <li>Settings</li>
-          <li onClick={handleLogout}>
-            <CiLogout /> Log-Out
-          </li>
-        </ul>
-      </div>
-
-      
+      </nav>
     </>
   );
 };

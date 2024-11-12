@@ -13,17 +13,17 @@ h1{
 .main{
     min-height: 80vh;
     display: flex;
-    justify-content: space-evenly;
-    padding-top: 5%;
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
     z-index: 2;
 }
 
 
 .product{
-  width: 350px;
-  height: 400px;
+  width: 370px;
+  height: 420px;
   overflow: hidden;
   display: flex;
   flex-direction: column;

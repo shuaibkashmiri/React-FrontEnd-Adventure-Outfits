@@ -22,7 +22,7 @@ useEffect(()=>{
   return (
     <>
     <div className="main">
-      <div className="headings">
+      {/* <div className="headings">
         <ul>
           <li><Link>WaterProof Jackets</Link></li>
           <li><Link>T-shirt/BaseLayers</Link></li>
@@ -34,7 +34,7 @@ useEffect(()=>{
 
 
         </ul>
-      </div>
+      </div> */}
       <div className="card">
       {menCatagory&&menCatagory.map((products)=><div className='product'>
    <div className='image'>

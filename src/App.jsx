@@ -10,6 +10,7 @@ import Signup from "./components/publicComponents/Signup.jsx";
 import Women from "./components/publicComponents/Women.jsx";
 import Cart from "./components/userComponents/Cart.jsx";
 import Men from "./components/publicComponents/Men.jsx"
+import Address from "./components/userComponents/Address.jsx";
 
 
 
@@ -47,6 +48,7 @@ const App = () => {
           <Route path="/women" element={<Suspense fallback={<Loading></Loading>}><Women/></Suspense>}/>
           <Route path="/usercart" element={<Suspense fallback={<Loading></Loading>}><Cart/></Suspense>}/>
 
+          <Route path="/user/editAddress" element={<Address/>}/>
 
 
 
