@@ -1,59 +1,148 @@
-import React, { useEffect, useState } from 'react'
-import "../styles/men.scss"
-import api from "../../utils/AxiosInstance"
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import api from "../../utils/AxiosInstance";
+
 const Men = () => {
-  const [menCatagory , setMenCatagory]=useState()
-const getMenCatagory=async ()=>{
- 
-  try {
-    const res =await api.get("/products/men");
-    setMenCatagory(res.data.products)
-  } catch (error) {
-    console.log(error)
-  }
-}
+  const [menCategory, setMenCategory] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState({}); // Track quantity and size for each product
 
+  const fetchMenCategory = async () => {
+    setLoading(true);
+    try {
+      const res = await api.get("/products/men");
+      setMenCategory(res.data.products);
 
-useEffect(()=>{
-  getMenCatagory()
-},[])
+      // Initialize default values for quantity and size for each product
+      const initialOptions = {};
+      res.data.products.forEach((product) => {
+        initialOptions[product._id] = { size: "", quantity: 1 };
+      });
+      setSelectedOptions(initialOptions);
+    } catch (error) {
+      toast.error("Failed to fetch men's category");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSizeChange = (productId, size) => {
+    setSelectedOptions((prev) => ({
+      ...prev,
+      [productId]: { ...prev[productId], size },
+    }));
+  };
+
+  const handleQuantityChange = (productId, quantity) => {
+    setSelectedOptions((prev) => ({
+      ...prev,
+      [productId]: { ...prev[productId], quantity },
+    }));
+  };
+
+  const addToCart = async (productId) => {
+    const { size, quantity } = selectedOptions[productId];
+    if (!size) {
+      toast.error("Please select a size!");
+      return;
+    }
+
+    try {
+      await api.post(`/products/addtocart/${productId}`, { size, quantity });
+      toast.success("Added to cart!");
+    } catch (error) {
+      toast.error("Failed to add to cart");
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMenCategory();
+  }, []);
 
   return (
     <>
-    <div className="main">
-      {/* <div className="headings">
-        <ul>
-          <li><Link>WaterProof Jackets</Link></li>
-          <li><Link>T-shirt/BaseLayers</Link></li>
-          <li><Link>Trekking Pants</Link></li>
-          <li><Link>Shoes</Link></li>
-          <li><Link>Acessiories</Link></li>
-          
+      <ToastContainer />
+      <div className="container my-5" style={{ marginTop: "70px" }}>
+        <h1 className="text-center mb-4">Men's Collection</h1>
 
-
-
-        </ul>
-      </div> */}
-      <div className="card">
-      {menCatagory&&menCatagory.map((products)=><div className='product'>
-   <div className='image'>
-   <img src={products.imageUrl} alt="" />
-   </div>
-   <div className='product-info'>
-    <p className='title'>{products.title}</p>
-    <p className='catagory'>{products.catagory}</p>
-    <p className='size'>Available Sizes {products.size}</p>
-    <p className='price'>₹ {products.price}</p>
-
-    <button>Add To Cart</button>
-   </div>
-</div>)}
+        {loading ? (
+          <div className="text-center">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        ) : (
+          <div className="row g-4">
+            {menCategory.map((product) => (
+              <div className="col-md-4" key={product._id}>
+                <div className="card h-100 shadow-sm">
+                  {/* Uniform Image */}
+                  <div className="card-img-top-container">
+                    <img
+                      src={product.imageUrl}
+                      alt={product.title}
+                      className="card-img-top"
+                    />
+                  </div>
+                  <div className="card-body d-flex flex-column">
+                    <h5 className="card-title">{product.title}</h5>
+                    <p className="card-text text-muted">{product.category}</p>
+                    <div className="mb-3">
+                      <label className="form-label">Select Size:</label>
+                      <select
+                        className="form-select"
+                        value={selectedOptions[product._id]?.size || ""}
+                        onChange={(e) =>
+                          handleSizeChange(product._id, e.target.value)
+                        }
+                      >
+                        <option value="" disabled>
+                          Choose size
+                        </option>
+                        {product.size.split(",").map((sizeOption, index) => (
+                          <option key={index} value={sizeOption}>
+                            {sizeOption}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label">Select Quantity:</label>
+                      <select
+                        className="form-select"
+                        value={selectedOptions[product._id]?.quantity || 1}
+                        onChange={(e) =>
+                          handleQuantityChange(product._id, e.target.value)
+                        }
+                      >
+                        {[1, 2, 3, 4, 5].map((qty) => (
+                          <option key={qty} value={qty}>
+                            {qty}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <p className="fw-bold text-primary mt-auto">
+                      ₹ {product.price}
+                    </p>
+                    <button
+                      className="btn btn-primary w-100 mt-2"
+                      onClick={() => addToCart(product._id)}
+                    >
+                      Add To Cart
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-  
-    </div>
     </>
-  )
-}
+  );
+};
 
-export default Men
+export default Men;
