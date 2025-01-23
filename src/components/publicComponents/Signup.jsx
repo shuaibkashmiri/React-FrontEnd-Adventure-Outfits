@@ -33,8 +33,15 @@ const Signup = () => {
   return (
     <>
       <ToastContainer />
-      <div className="signup-page d-flex justify-content-center align-items-center vh-100 bg-dark">
-        <div className="card p-4 shadow-lg bg-light" style={{ width: "400px" }}>
+      <div className="signup-page pt-5 mt-2 d-flex justify-content-center align-items-center vh-80 bg-dark">
+        <div
+          className="card p-5 m-5 shadow-lg bg-light"
+          style={{
+            width: "400px",
+            marginTop: "50px", // More margin from the top
+            marginBottom: "50px", // More margin from the bottom
+          }}
+        >
           <h2 className="text-center mb-4 text-dark">Register With Us</h2>
           <form>
             <div className="mb-3">
@@ -78,7 +85,7 @@ const Signup = () => {
             </div>
             <button
               type="button"
-              className="btn btn-primary w-100 mb-3"
+              className="btn btn-dark w-100 mb-3" // Changed button color to dark
               onClick={handleClick}
             >
               Register

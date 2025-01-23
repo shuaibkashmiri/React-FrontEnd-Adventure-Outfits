@@ -30,6 +30,15 @@ const Dashboard = () => {
     fetchUser();
   }, []); // Empty dependency array to run only once on mount
 
+  // Function to format date as DD-MM-YYYY
+  const formatDate = (dateString) => {
+    const dateObj = new Date(dateString);
+    const day = String(dateObj.getDate()).padStart(2, "0"); // Add leading zero if needed
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // getMonth() is 0-indexed
+    const year = dateObj.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
   // Handle the cancellation of an order
   const handleCancelOrder = async () => {
     try {
@@ -114,7 +123,8 @@ const Dashboard = () => {
                           <tr>
                             <td rowSpan={1}>{order._id}</td>
                             <td rowSpan={1}>
-                              {new Date(order.createdAt).toLocaleDateString()}
+                              {/* Use the new date format function */}
+                              {formatDate(order.orderDate)}
                             </td>
                             <td rowSpan={1}>{order.status}</td>
                             <td>

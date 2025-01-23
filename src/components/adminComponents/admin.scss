@@ -1,0 +1,11 @@
+@media (max-width: 768px) {
+    .table td, .table th {
+      font-size: 0.8rem;  /* Adjusts font*/
+    }
+}
+      
+.table-responsive {
+    overflow-x: scroll !important; /* Ensure horizontal scrollbar is always visible */
+    -webkit-overflow-scrolling: touch; /* Improve scrolling on iOS */
+  }
+  
